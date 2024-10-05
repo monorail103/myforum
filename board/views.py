@@ -23,14 +23,8 @@ def thread_list(request):
 
 def thread_detail(request, pk):
     thread = get_object_or_404(Thread, pk=pk)
-    # スレ書き込み数が1000県を超えたらものは表面上削除
-    if thread.post_set.count() > 1000:
-        return redirect('thread_list')
-    posts = thread.post_set.all() 
-    return render(request, 'board/thread_detail.html', {'thread': thread, 'posts': posts})
 
-def new_post(request, pk):
-    thread = get_object_or_404(Thread, pk=pk)
+    # POSTメソッドの場合は新規投稿を受け付ける
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
@@ -40,4 +34,9 @@ def new_post(request, pk):
             return redirect('thread_detail', pk=pk)
     else:
         form = PostForm()
-    return render(request, 'board/new_post.html', {'form': form, 'thread': thread})
+
+    # スレ書き込み数が1000県を超えたらものは表面上削除
+    if thread.post_set.count() > 1000:
+        return redirect('thread_list')
+    posts = thread.post_set.all() 
+    return render(request, 'board/thread_detail.html', {'form': form, 'thread': thread, 'posts': posts})

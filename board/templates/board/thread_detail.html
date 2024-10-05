@@ -2,13 +2,20 @@
 <html>
 <head>
     <title>{{ thread.title }}</title>
+    <link rel="stylesheet" href="{% static 'default.css' %}">
 </head>
 <body>
     <h1>{{ thread.title }}</h1>
     {% for post in posts %}
         <p>{{ post.author }} ({{ post.created_at }}):<br> {{ post.content }}</p>
     {% endfor %}
-    <a href="{% url 'new_post' thread.pk %}">新しい書き込みを追加</a>
     <a href="{% url 'thread_list' %}">スレッド一覧に戻る</a>
+
+    <h1>新しい書き込みを追加</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">追加</button>
+    </form>
 </body>
 </html>
