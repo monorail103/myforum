@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新しい書き込みを追加</title>
+</head>
+<body>
+    <h1>新しい書き込みを追加</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">追加</button>
+    </form>
+    <a href="{% url 'thread_detail' thread.pk %}">スレッドに戻る</a>
+</body>
+</html>

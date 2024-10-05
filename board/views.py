@@ -1,0 +1,43 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Thread, Post
+from .forms import ThreadForm, PostForm
+
+# スレ一覧を表示
+def thread_list(request):
+    if request.method == 'POST':
+        form = ThreadForm(request.POST)
+        if form.is_valid():
+            thread = form.save()
+            return redirect('thread_detail', pk=thread.pk)
+    else:
+        form = ThreadForm()
+    
+    threads = Thread.objects.all()
+    thread_data = []
+    for thread in threads:
+        thread_data.append({
+            'thread': thread,
+            'post_count': thread.post_set.count()
+        })
+    return render(request, 'board/thread_list.html', {'form': form, 'thread_data': thread_data})
+
+def thread_detail(request, pk):
+    thread = get_object_or_404(Thread, pk=pk)
+    # スレ書き込み数が1000県を超えたらものは表面上削除
+    if thread.post_set.count() > 1000:
+        return redirect('thread_list')
+    posts = thread.post_set.all() 
+    return render(request, 'board/thread_detail.html', {'thread': thread, 'posts': posts})
+
+def new_post(request, pk):
+    thread = get_object_or_404(Thread, pk=pk)
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.thread = thread
+            post.save()
+            return redirect('thread_detail', pk=pk)
+    else:
+        form = PostForm()
+    return render(request, 'board/new_post.html', {'form': form, 'thread': thread})

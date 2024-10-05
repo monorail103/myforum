@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ thread.title }}</title>
+</head>
+<body>
+    <h1>{{ thread.title }}</h1>
+    {% for post in posts %}
+        <p>{{ post.author }} ({{ post.created_at }}):<br> {{ post.content }}</p>
+    {% endfor %}
+    <a href="{% url 'new_post' thread.pk %}">新しい書き込みを追加</a>
+    <a href="{% url 'thread_list' %}">スレッド一覧に戻る</a>
+</body>
+</html>
