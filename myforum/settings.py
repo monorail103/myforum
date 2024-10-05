@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'myforum.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "verceldb", #ご自身が作成したデータベース名
+        "USER": "default", #ご自身が設定したユーザー名
+        "PASSWORD": "ISZJGR7T4aeA", #ご自身が設定したパスワード
+        "HOST": "ep-round-dust-a4i1m68z-pooler.us-east-1.aws.neon.tech",
+        "PORT": "5432",
     }
 }
 
