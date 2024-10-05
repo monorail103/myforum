@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>スレッド一覧</title>
+</head>
+<body>
+    <h1>スレッド一覧</h1>
+    <ul>
+        {% for item in thread_data %}
+            <li>
+                <a href="{% url 'thread_detail' item.thread.pk %}">{{ item.thread.title }}</a>
+                - 書き込み数: {{ item.post_count }}
+            </li>
+        {% endfor %}
+    </ul>
+    <h1>新しいスレッドを作成</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">作成</button>
+    </form>
+</body>
+</html>

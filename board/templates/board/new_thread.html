@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新しいスレッドを作成</title>
+</head>
+<body>
+    <h1>新しいスレッドを作成</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">作成</button>
+    </form>
+    <a href="{% url 'thread_list' %}">スレッド一覧に戻る</a>
+</body>
+</html>
