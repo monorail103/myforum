@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 import hashlib
+import datetime
 from .models import Thread, Post
 from .forms import ThreadForm, PostForm
 
@@ -10,9 +11,10 @@ def thread_list(request):
         if form.is_valid():
             thread = form.save()
             ip_address = request.META.get('REMOTE_ADDR')
-            current_date = thread.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            current_date = datetime.datetime.now().strftime('%Y-%m-%d')
             # 日をまたいだら変わるIDを生成
-            thread.user_id = f"{ip_address}_{current_date}"
+            unique_string = f"{ip_address}_{current_date}"
+            thread.user_id = hashlib.sha256(unique_string.encode()).hexdigest()[:8]
             return redirect('thread_detail', pk=thread.pk)
     else:
         form = ThreadForm()
@@ -37,13 +39,13 @@ def thread_detail(request, pk):
             post = form.save(commit=False)
             post.thread = thread
             ip_address = request.META.get('REMOTE_ADDR')
-            current_date = post.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            current_date = datetime.datetime.now().strftime('%Y-%m-%d')
             post.ip_address = request.META.get('REMOTE_ADDR')
             post.user_agent = request.META.get('HTTP_USER_AGENT')
 
             # 日をまたいだら変わるIDを生成
             unique_string = f"{ip_address}_{current_date}"
-            post.user_id = hashlib.sha256(unique_string.encode()).hexdigest()
+            post.user_id = hashlib.sha256(unique_string.encode()).hexdigest()[:8]
             post.save()
             return redirect('thread_detail', pk=pk)
     else:
