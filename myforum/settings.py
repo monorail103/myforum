@@ -75,12 +75,13 @@ WSGI_APPLICATION = 'myforum.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# vercelのDBに接続するための設定
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "verceldb", #ご自身が作成したデータベース名
-        "USER": "default", #ご自身が設定したユーザー名
-        "PASSWORD": "ISZJGR7T4aeA", #ご自身が設定したパスワード
+        "NAME": "verceldb",
+        "USER": "default",
+        "PASSWORD": "ISZJGR7T4aeA",
         "HOST": "ep-round-dust-a4i1m68z-pooler.us-east-1.aws.neon.tech",
         "PORT": "5432",
     }

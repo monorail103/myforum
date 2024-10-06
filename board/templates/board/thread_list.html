@@ -4,7 +4,57 @@
 <html>
 <head>
     <title>スレッド一覧</title>
-    <link rel="stylesheet" href="../static/myforum/default.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>スレッド一覧</h1>
@@ -13,6 +63,7 @@
             <li>
                 <a href="{% url 'thread_detail' item.thread.pk %}">{{ item.thread.title }}</a>
                 - 書き込み数: {{ item.post_count }}
+                - ID: {{ item.user_id }}
             </li>
         {% endfor %}
     </ul>

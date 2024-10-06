@@ -1,15 +1,64 @@
 
-{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ thread.title }}</title>
-    <link rel="stylesheet" href="../static/myforum/default.css">
+    <title>スレッド一覧</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     <h1>{{ thread.title }}</h1>
     {% for post in posts %}
-        <p>{{ post.author }} ({{ post.created_at }}):<br> {{ post.content }}</p>
+        <p>{{ post.author }} ({{ post.created_at }}) ID:{{ post.user_id }}<br> {{ post.content }}</p>
     {% endfor %}
     <a href="{% url 'thread_list' %}">スレッド一覧に戻る</a>
 
