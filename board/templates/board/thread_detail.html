@@ -26,6 +26,8 @@
             margin-bottom: 10px;
             padding: 10px;
             border-radius: 5px;
+            position: relative;
+            cursor: pointer;
         }
 
         a {
@@ -53,12 +55,46 @@
         button:hover {
             background-color: #0056b3;
         }
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
     </style>
+    <script>
+        function addReplyToTextbox(postNumber) {
+            var textbox = document.getElementById('id_content');
+            textbox.value += '>>' + postNumber + '\n';
+            textbox.focus();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var posts = document.querySelectorAll('li[id^="post-"]');
+            posts.forEach(function(post) {
+                post.addEventListener('click', function() {
+                    var postNumber = this.id.replace('post-', '');
+                    addReplyToTextbox(postNumber);
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <h1>{{ thread.title }}</h1>
-    {% for post in posts %}
-        <p>{{ post.author }} ({{ post.created_at }}) ID:{{ post.user_id }}<br> {{ post.content }}</p>
+    {% for post in post_data %}
+        <li id="post-{{ post.post_number }}">
+            <p>{{post.post_number}} {{ post.author }} ({{ post.created_at }}) ID:{{ post.user_id }}</p>
+            <br> {{ post.content|safe }}
+            
+            <div id="tooltip-{{ post.post_number }}" class="tooltip">
+                {{ post.content|safe }}
+            </div>
+        </li>
     {% endfor %}
     <a href="{% url 'thread_list' %}">スレッド一覧に戻る</a>
 
